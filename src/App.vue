@@ -1,43 +1,28 @@
+
 <template>
-  <div id="app">
+  <div id="app" class="app">
 
     <!-- heading -->
     <header>
-      <h1>Books<span>.app</span></h1>
+      <h1 class="app__heading">Books<span>.app</span></h1>
     </header>
-    <ul>
-  <li
-    :key="index"
-    v-for="(book, index) in books">
-    {{ book.title }}, {{ book.price }}
-    <button @click="removeBook(index)">Remove</button>
-  </li>
-</ul>
-    <p v-show="!books.length">No books...</p>
-    <p v-if="books.length >5" >{{books.length}} books! </p>
-    <p v-else-if="books.length > 1">Not too many of them… </p>
-    <p v-else-if="books.length === 1">One single book! </p>
-    <p v-else>Go get some books!</p>
-    <!-- add book form -->
-  <form @submit.prevent="handleSubmit">
-  <label>
-    Title:
-    <input v-model="form.title" type="text" name="title" placeholder="title">
-    {{ form.title }}
-  </label>
-  <label>
-    price:
-    <input v-model="form.price" type="number" name="price">
-    {{ form.price }}
-  </label>
-  <button>Add book</button>
-  </form>
 
+     <!-- books list -->
+    <books-list @remove="removeBook" :books="books" />
+    <books-Length-Msg :books="books" />
+    <book-form @add="addBook" />
+    <books-summary :books="books"></books-summary>
+    <!-- add book form -->
   </div>
 </template>
 
 <script>
+import BooksList from './components/BooksList'
+import BooksLengthMsg from './components/BooksLengthMsg'
+import BookForm from './components/BookForm'
+import BooksSummary from './components/BooksSummary.vue'
 export default {
+
   name: 'App',
   data: () => ({
     books: [
@@ -56,15 +41,39 @@ export default {
     }
 
   }),
+  components: {
+    BooksList,
+    BooksLengthMsg,
+    BookForm,
+    BooksSummary
+  },
   methods: {
     removeBook (index) {
       this.books.splice(index, 1)
     },
-    handleSubmit () {
-      this.books.push({ ...this.form })
-      this.form.price = 0
-      this.form.title = ''
+    addBook (book) {
+      this.books.push({ ...book })
+    },
+    lengthBook (book) {
+      this.books.push({ ...book.length })
     }
   }
 }
 </script>
+
+<style lang="scss">
+.app {
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  margin: 0 auto;
+
+  &__heading {
+    font-size: 3rem;
+    text-align: center;
+    span {
+      color: #5a58da;
+    }
+  }
+}
+</style>
