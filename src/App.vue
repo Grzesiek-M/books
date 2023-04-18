@@ -6,21 +6,41 @@
     <header>
       <h1 class="app__heading">Books<span>.app</span></h1>
     </header>
-
-     <!-- books list -->
+    <!-- books list -->
     <books-list @remove="removeBook" :books="books" />
-    <books-Length-Msg :books="books" />
+    <books-Length-Msg :length="books.length" />
     <book-form @add="addBook" />
-    <books-summary :books="books"></books-summary>
+    <books-summary :books="books" />
+
     <!-- add book form -->
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import BooksList from './components/BooksList'
 import BooksLengthMsg from './components/BooksLengthMsg'
 import BookForm from './components/BookForm'
 import BooksSummary from './components/BooksSummary.vue'
+const ebook = ref(null)
+
+fetch('https://api.itbook.store/1.0/new')
+  .then((response) => response.json())
+  // .then((data) => {
+  //   this.books.value.push(data)
+  //   console.log(data)
+  // })
+  // .then((data) => {
+  //   console.log(data)
+  //   this.form.push(data)
+  //   console.log(this.books)
+  // })
+  .then((data) => {
+    console.log(ebook)
+    console.log(data)
+    this.books.push(...data.ebooks.splice(0, 3))
+  })
+
 export default {
 
   name: 'App',
@@ -36,6 +56,10 @@ export default {
       }
     ],
     form: {
+      title: '',
+      price: 0
+    },
+    ebook: {
       title: '',
       price: 0
     }
@@ -55,10 +79,11 @@ export default {
       this.books.push({ ...book })
     },
     lengthBook (book) {
-      this.books.push({ ...book.length })
+      this.books({ ...book.length })
     }
   }
 }
+
 </script>
 
 <style lang="scss">

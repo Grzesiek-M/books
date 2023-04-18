@@ -1,11 +1,18 @@
 <template>
   <div class="book-list">
     <ul>
-      <li class="book-list__item"
+      <li
+        class="book-list__item"
         :key="index"
-        v-for="(book, index) in books">
-          {{ book.title }}, {{ book.price }}
-          <button class="book-list__btn" @click="$emit('remove', index)">Remove</button>
+        v-for="(book, index) in books"
+      >
+        {{ book.title }}, {{ book.price }}
+        <button
+        class="book-list__btn"
+        @click="$emit('remove', index)"
+        >
+          Remove
+        </button>
       </li>
     </ul>
   </div>
@@ -16,10 +23,6 @@ export default {
   name: 'BooksList',
   props: {
     books: {
-      type: Array,
-      required: true
-    },
-    removeBook: {
       type: Array,
       required: true
     }

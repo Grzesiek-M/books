@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'BookForm',
   data: () => ({
@@ -20,14 +21,7 @@ export default {
       title: '',
       price: 0
     }
-  }),
-  methods: {
-    handleSubmit () {
-      this.$emit('add', this.form)
-      this.form.price = 0
-      this.form.title = ''
-    }
-  }
+  })
 }
 </script>
 
