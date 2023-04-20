@@ -17,29 +17,12 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+// import { ref } from 'vue'
 import BooksList from './components/BooksList'
 import BooksLengthMsg from './components/BooksLengthMsg'
 import BookForm from './components/BookForm'
 import BooksSummary from './components/BooksSummary.vue'
-const ebook = ref(null)
-
-fetch('https://api.itbook.store/1.0/new')
-  .then((response) => response.json())
-  // .then((data) => {
-  //   this.books.value.push(data)
-  //   console.log(data)
-  // })
-  // .then((data) => {
-  //   console.log(data)
-  //   this.form.push(data)
-  //   console.log(this.books)
-  // })
-  .then((data) => {
-    console.log(ebook)
-    console.log(data)
-    this.books.push(...data.ebooks.splice(0, 3))
-  })
+// const ebook = ref(null)
 
 export default {
 
@@ -65,6 +48,30 @@ export default {
     }
 
   }),
+  mounted () {
+    fetch('https://api.itbook.store/1.0/new')
+      .then((response) => response.json())
+    // .then((data) => {
+    //   this.books.value.push(data)
+    //   console.log(data)
+    // })
+    // .then((data) => {
+    //   console.log(data)
+    //   this.form.push(data)
+    //   console.log(this.books)
+    // })
+      .then((data) => {
+        console.log(this.books)
+        console.log(data)
+        const books = data.books.splice(0, 3).map(book => {
+          return {
+            title: book.title,
+            price: parseFloat(book.price.replace('$', ''))
+          }
+        })
+        this.books.push(...books)
+      })
+  },
   components: {
     BooksList,
     BooksLengthMsg,
